@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Adressboken
 {
@@ -8,7 +9,7 @@ namespace Adressboken
         {
             //Variablar
             int antalNamn = 0;
-            string[] adressbok = new string[0];
+            List<string> adressbok = new List<string>();
 
             while (true)
             { //Meny           
@@ -28,7 +29,7 @@ namespace Adressboken
                     }
                     else
                     {
-                        for (int i = 0; i < adressbok.Length; i++)
+                        for (int i = 0; i < adressbok.Count; i++)
                         {
                             Console.WriteLine(i + 1 + ". " + adressbok[i]);
                         }
@@ -38,15 +39,17 @@ namespace Adressboken
                 {
                     Console.WriteLine("Vad är namnet? ");
                     string nyttNamn = Console.ReadLine();
-                    Array.Resize(ref adressbok, adressbok.Length + 1);
-                    adressbok[adressbok.Length - 1] = nyttNamn;
+                    adressbok.Add(nyttNamn);
+                    //  Array.Resize(ref adressbok, adressbok.Length + 1);
+                    // adressbok[adressbok.Length - 1] = nyttNamn;
                     antalNamn++;
                     Console.WriteLine("Nytt namn tillagt.");
                 }
                 else if (mySelection == "c")
                 {
-                    Array.Clear(adressbok, antalNamn - 1, antalNamn - 1);
-                    Array.Resize(ref adressbok, adressbok.Length - antalNamn);
+                    //  Array.Clear(adressbok, antalNamn - 1, antalNamn - 1);
+                    // Array.Resize(ref adressbok, adressbok.Length - antalNamn);
+                    adressbok.Clear();
                     antalNamn = 0;
                 }
                 else if (mySelection == "q")
