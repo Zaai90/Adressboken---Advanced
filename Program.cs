@@ -1,63 +1,84 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Adressboken
 {
     class Program
     {
+        //Variablar
+        static int antalNamn = 0;
+        static string message = "";
+        static List<string> contacts = new();
         static void Main(string[] args)
         {
-            //Variablar
-            int antalNamn = 0;
-            string[] adressbok = new string[0];
 
             while (true)
-            { //Meny           
-                Console.WriteLine("[A] Visa alla namn i adressboken: ");
-                Console.WriteLine("[B] Lägg till namn: ");
-                Console.WriteLine("[C] Töm adressboken: ");
-                Console.WriteLine("[Q] Stäng program");
-                Console.Write("Vad vill du göra? ");
-                string mySelection = Console.ReadLine().ToLower();
+            {
+                Meny();
+            }
+        }
 
-                if (mySelection == "a")
+        static void Meny()
+        {
+            //Meny 
+            Console.Clear();
+            Console.WriteLine($" --: Adressboken :--- Antal namn: {contacts.Count} Antal Tecken: {((char)contacts.Count)}");
+            Console.WriteLine("[A] Visa alla namn i adressboken: ");
+            Console.WriteLine("[B] Lägg till namn: ");
+            Console.WriteLine("[C] Töm adressboken: ");
+            Console.WriteLine("[Q] Stäng program");
+            Console.WriteLine(message);
+            Console.Write("Vad vill du göra? ");
+            string mySelection = Console.ReadLine().ToLower();
+
+            if (mySelection == "a")
+            {
+
+                if (antalNamn == 0)
                 {
-                    Console.WriteLine("Adressboken:");
-                    if (antalNamn == 0)
-                    {
-                        Console.WriteLine("Inga namn i adressboken.");
-                    }
-                    else
-                    {
-                        for (int i = 0; i < adressbok.Length; i++)
-                        {
-                            Console.WriteLine(i + 1 + ". " + adressbok[i]);
-                        }
-                    }
-                }
-                else if (mySelection == "b")
-                {
-                    Console.WriteLine("Vad är namnet? ");
-                    string nyttNamn = Console.ReadLine();
-                    Array.Resize(ref adressbok, adressbok.Length + 1);
-                    adressbok[adressbok.Length - 1] = nyttNamn;
-                    antalNamn++;
-                    Console.WriteLine("Nytt namn tillagt.");
-                }
-                else if (mySelection == "c")
-                {
-                    Array.Clear(adressbok, antalNamn - 1, antalNamn - 1);
-                    Array.Resize(ref adressbok, adressbok.Length - antalNamn);
-                    antalNamn = 0;
-                }
-                else if (mySelection == "q")
-                {
-                    break;
+                    message = "Inga namn i adressboken.";
                 }
                 else
                 {
-                    Console.WriteLine("Ogilltligt val!");
+                    int j = 1;
+                    foreach (var name in contacts)
+                    {
+                        Console.WriteLine($"{j}. {name}");
+                        j++;
+                    }
+                    Console.ReadLine();
+
                 }
             }
+            else if (mySelection == "b")
+            {
+                Console.WriteLine("Vad är namnet? ");
+                addToContacts(Console.ReadLine());
+                antalNamn++;
+                message = "Nytt namn tillagt.";
+            }
+            else if (mySelection == "c")
+            {
+                ClearContacts();
+                antalNamn = 0;
+            }
+            else if (mySelection == "q")
+            {
+                Environment.Exit(0);
+            }
+            else
+            {
+                message = "Ogilltligt val!";
+            }
+
+        }
+        static void addToContacts(string name)
+        {
+            contacts.Add(name);
+        }
+        static void ClearContacts()
+        {
+            contacts.Clear();
         }
     }
 }
