@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Adressboken
 {
@@ -14,6 +15,7 @@ namespace Adressboken
         static void Main(string[] args)
 
         {
+            addToContacts("Dav");
             addToContacts("Erik Jansson");
             addToContacts("David Josefsson");
             addToContacts("Emil Grune");
@@ -32,14 +34,16 @@ namespace Adressboken
         {
             //Menu
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine($" --- § Contacts § --- \n Number of names: {contacts.Count} Number of characters: {totalChars}");
             Console.WriteLine("[V]iew contacts");
             Console.WriteLine("[A]dd name");
             Console.WriteLine("[E]mpty contacts");
             Console.WriteLine("[S]earch name");
             Console.WriteLine("[Q]uit program");
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(message);
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.Write("Choose action: ");
 
             string mySelection = Console.ReadKey(true).Key.ToString().ToLower();
@@ -51,6 +55,7 @@ namespace Adressboken
             }
             else if (mySelection == "a")
             {
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("What name do you want to add? ");
                 addToContacts(Console.ReadLine());
 
@@ -103,18 +108,44 @@ namespace Adressboken
 
         static void SearchName()
         {
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("What name whould you like to search for?");
-            string searchName = Console.ReadLine();
+            string searchName2 = "";
+            bool nameExist = false;
+            message = "";
 
-            foreach (var name in contacts)
+            while (true)
             {
-                if (name.Contains(searchName))
+                if (string.IsNullOrWhiteSpace(searchName2))
                 {
-                    Console.WriteLine($"{name} exists in contacts!");
+                    searchName2 = Console.ReadLine().ToLower();
+                }
+                else
+                {
+                    break;
                 }
             }
+
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            foreach (var name in contacts)
+            {
+                if (name.ToLower() == searchName2)
+                {
+                    nameExist = true;
+                }
+                if (name.ToLower().Contains(searchName2))
+                {
+                    Console.WriteLine($"{name} exists in contacts!");
+
+                }
+                if (name.ToLower() != searchName2 && name == contacts.Last() && !nameExist)
+                {
+                    Console.WriteLine($"{Char.ToUpper(searchName2[0]) + searchName2.Substring(1)} did not exists in contacts!");
+                }
+
+            }
             Console.ReadLine();
-            message = "";
+
         }
 
 
@@ -122,10 +153,12 @@ namespace Adressboken
         {
             if (contacts.Count == 0)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("No names in contacts.");
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 int j = 1;
                 foreach (var name in contacts)
                 {
