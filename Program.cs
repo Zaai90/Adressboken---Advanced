@@ -16,16 +16,16 @@ namespace Adressboken
         static void Main(string[] args)
 
         {
-            addToContacts("Dav", "0707070707");
-            addToContacts("Erik Jansson", "0707070707");
-            addToContacts("Nina Larsdotter", "0707070707");
-            addToContacts("David Josefsson", "0707070707");
-            addToContacts("Sara Andersson", "0707070707");
-            addToContacts("Emil Grune", "0707070707");
+            addToContacts("Dav", "0707070701");
+            addToContacts("Erik Jansson", "0707070702");
+            addToContacts("Nina Larsdotter", "0707070703");
+            addToContacts("David Josefsson", "0707070704");
+            addToContacts("Sara Andersson", "0707070705");
+            addToContacts("Emil Grune", "0707070706");
             addToContacts("Elin Grune", "0707070707");
-            addToContacts("Erik Grune", "0707070707");
-            addToContacts("Johan Grune", "0707070707");
-            addToContacts("Erik Danielsson", "0707070707");
+            addToContacts("Erik Grune", "0707070708");
+            addToContacts("Johan Grune", "0707070709");
+            addToContacts("Erik Danielsson", "0707070710");
             message = "";
 
             while (true)
@@ -38,7 +38,7 @@ namespace Adressboken
             //Menu
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($" --- § Contacts § --- \n Number of names: {contactNames.Count} Number of characters: {totalChars}");
+            Console.WriteLine($"--- § Contacts § --- \nNumber of names: {contactNames.Count} \nNumber of characters: {totalChars}");
             Console.WriteLine("[V]iew contacts");
             Console.WriteLine("[A]dd name");
             Console.WriteLine("[E]mpty contacts");
@@ -54,7 +54,7 @@ namespace Adressboken
 
             if (mySelection == "v")
             {
-                WriteNames();
+                WriteOutContacts();
             }
             else if (mySelection == "a")
             {
@@ -94,22 +94,22 @@ namespace Adressboken
             {
                 if (int.TryParse(number, out int result))
                 {
+
                     if (number.Length == 10)
                     {
-                        return Convert.ToString(result);
-
+                        return number;
                     }
                     else
                     {
-                        return "0707070707";
-
+                        Console.WriteLine("Only 10 numbers, try again: ");
+                        number = Console.ReadLine();
                     }
                 }
                 else
                 {
-                    Console.WriteLine();
+                    Console.WriteLine("Only numbers, try again: ");
+                    number = Console.ReadLine();
                 }
-
             }
         }
         static void addToContacts(string name, string number)
@@ -128,14 +128,12 @@ namespace Adressboken
             message = "New name and phonenumber added.";
         }
 
-
         static void ClearContacts()
         {
             contactNames.Clear();
             totalChars = 0;
             message = "Contacts in now empty!";
         }
-
 
         static void SearchName()
         {
@@ -175,15 +173,14 @@ namespace Adressboken
                 }
             }
             Console.ReadLine();
-
         }
 
-        static void WriteNames()
+        static void WriteOutContacts()
         {
             if (contactNames.Count == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("No names in contacts.");
+                Console.WriteLine("Your contacts are empty.");
             }
             else
             {
@@ -191,7 +188,15 @@ namespace Adressboken
                 int j = 1;
                 foreach (var name in contactNames)
                 {
-                    Console.WriteLine($"{j}. {name}");
+                    Console.Write($"{j}. {name} ---");
+
+                    for (int i = 0; i < phoneNumbers.Count; i++)
+                    {
+                        if (i == j - 1)
+                        {
+                            Console.WriteLine($" {phoneNumbers[i]}");
+                        }
+                    }
                     j++;
                 }
             }
