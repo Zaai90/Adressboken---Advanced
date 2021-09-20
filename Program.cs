@@ -16,6 +16,7 @@ namespace Adressboken
         static void Main(string[] args)
 
         {
+            Testdata();
             mainMenu();
 
         }
@@ -232,5 +233,40 @@ namespace Adressboken
             }
             Console.ReadLine();
         }
+        static void Testdata(int nameCount = 10)
+        {
+            Random rand = new Random();
+
+            List<string> firstName = new()
+            {
+                "Erik",
+                "John",
+                "Eva",
+                "Jessica",
+                "Tobias",
+                "Maria"
+            };
+            List<string> LastName = new()
+            {
+                "Eriksson",
+                "Johansson",
+                "Frisk",
+                "Larsdotter",
+                "Lönn",
+                "Alm"
+            };
+            for (int i = 0; i < nameCount; i++)
+            {
+                int index = rand.Next(1, 6);
+                String tmpContact = $"{firstName[index]} ";
+                index = rand.Next(1, 6);
+                tmpContact = tmpContact + LastName[index];
+                contactNames.Add(tmpContact);
+                phoneNumbers.Add("0707070707");
+            }
+
+
+        }//Slutet på klassen
+
     }
 }
