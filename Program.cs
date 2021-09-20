@@ -147,6 +147,18 @@ namespace Adressboken
         {
             Console.WriteLine("What's the persons name? ");
             string tmpName = Console.ReadLine();
+            while (true)
+            {
+                if (string.IsNullOrWhiteSpace(tmpName))
+                {
+                    Console.WriteLine("You need to enter a name:");
+                    tmpName = Console.ReadLine();
+                }
+                else
+                {
+                    break;
+                }
+            }
             Console.WriteLine("Add the person's phone number: ");
             string tmpNumber = CheckPhoneNr(Console.ReadLine());
 
