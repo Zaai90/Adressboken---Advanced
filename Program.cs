@@ -17,8 +17,11 @@ namespace Adressboken
         {
             addToContacts("Dav");
             addToContacts("Erik Jansson");
+            addToContacts("Nina Larsdotter");
             addToContacts("David Josefsson");
+            addToContacts("Sara Andersson");
             addToContacts("Emil Grune");
+            addToContacts("Elin Grune");
             addToContacts("Erik Grune");
             addToContacts("Johan Grune");
             addToContacts("Erik Danielsson");
