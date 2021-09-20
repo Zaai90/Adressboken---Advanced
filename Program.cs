@@ -148,6 +148,7 @@ namespace Adressboken
                 if (string.IsNullOrWhiteSpace(searchName2))
                 {
                     searchName2 = Console.ReadLine().ToLower();
+
                 }
                 else
                 {
