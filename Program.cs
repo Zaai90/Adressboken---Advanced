@@ -66,6 +66,12 @@ namespace Adressboken
         public static string drawMainMenu(List<string> items)
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("----: Contacts :----");
+            Console.WriteLine($"Number of persons: {contactNames.Count}");
+            Console.WriteLine($"Number of characters: {totalChars}");
+            Console.WriteLine("--------------------");
+            Console.ResetColor();
             for (int i = 0; i < items.Count; i++)
             {
                 if (i == indexMainMenu)
