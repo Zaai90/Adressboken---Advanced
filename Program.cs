@@ -7,7 +7,8 @@ namespace Adressboken
     class Program
     {
         //Variablar
-        static List<string> contacts = new();
+        static List<string> contactNames = new();
+        static List<string> phoneNumbers = new();
         static int totalChars = 0;
         static string message = "";
 
@@ -15,16 +16,16 @@ namespace Adressboken
         static void Main(string[] args)
 
         {
-            addToContacts("Dav");
-            addToContacts("Erik Jansson");
-            addToContacts("Nina Larsdotter");
-            addToContacts("David Josefsson");
-            addToContacts("Sara Andersson");
-            addToContacts("Emil Grune");
-            addToContacts("Elin Grune");
-            addToContacts("Erik Grune");
-            addToContacts("Johan Grune");
-            addToContacts("Erik Danielsson");
+            addToContacts("Dav", "0707070707");
+            addToContacts("Erik Jansson", "0707070707");
+            addToContacts("Nina Larsdotter", "0707070707");
+            addToContacts("David Josefsson", "0707070707");
+            addToContacts("Sara Andersson", "0707070707");
+            addToContacts("Emil Grune", "0707070707");
+            addToContacts("Elin Grune", "0707070707");
+            addToContacts("Erik Grune", "0707070707");
+            addToContacts("Johan Grune", "0707070707");
+            addToContacts("Erik Danielsson", "0707070707");
             message = "";
 
             while (true)
@@ -32,13 +33,12 @@ namespace Adressboken
                 ShowMenu();
             }
         }
-
         static void ShowMenu()
         {
             //Menu
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($" --- § Contacts § --- \n Number of names: {contacts.Count} Number of characters: {totalChars}");
+            Console.WriteLine($" --- § Contacts § --- \n Number of names: {contactNames.Count} Number of characters: {totalChars}");
             Console.WriteLine("[V]iew contacts");
             Console.WriteLine("[A]dd name");
             Console.WriteLine("[E]mpty contacts");
@@ -60,7 +60,11 @@ namespace Adressboken
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("What name do you want to add? ");
-                addToContacts(Console.ReadLine());
+                string tmpName = Console.ReadLine();
+                Console.WriteLine("Add the persons phonenumber: ");
+                string tmpNumber = CheckPhoneNr(Console.ReadLine());
+
+                addToContacts(tmpName, tmpNumber);
 
             }
             else if (mySelection == "e")
@@ -84,26 +88,50 @@ namespace Adressboken
 
         }
 
+        static string CheckPhoneNr(string number)
+        {
+            while (true)
+            {
+                if (int.TryParse(number, out int result))
+                {
+                    if (number.Length == 10)
+                    {
+                        return Convert.ToString(result);
 
-        static void addToContacts(string name)
+                    }
+                    else
+                    {
+                        return "0707070707";
+
+                    }
+                }
+                else
+                {
+                    Console.WriteLine();
+                }
+
+            }
+        }
+        static void addToContacts(string name, string number)
         {
 
-            contacts.Add(name);
+            contactNames.Add(name);
+            phoneNumbers.Add(number);
 
             int total = 0;
-            foreach (var name2 in contacts)
+            foreach (var name2 in contactNames)
             {
                 int i = name2.Length;
                 total = total += i;
             }
             totalChars = total;
-            message = "New name added.";
+            message = "New name and phonenumber added.";
         }
 
 
         static void ClearContacts()
         {
-            contacts.Clear();
+            contactNames.Clear();
             totalChars = 0;
             message = "Contacts in now empty!";
         }
@@ -130,7 +158,7 @@ namespace Adressboken
             }
 
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            foreach (var name in contacts)
+            foreach (var name in contactNames)
             {
                 if (name.ToLower() == searchName2)
                 {
@@ -141,11 +169,10 @@ namespace Adressboken
                     Console.WriteLine($"{name} exists in contacts!");
 
                 }
-                if (name.ToLower() != searchName2 && name == contacts.Last() && !nameExist)
+                if (name.ToLower() != searchName2 && name == contactNames.Last() && !nameExist)
                 {
                     Console.WriteLine($"{Char.ToUpper(searchName2[0]) + searchName2.Substring(1)} did not exists in contacts!");
                 }
-
             }
             Console.ReadLine();
 
@@ -153,7 +180,7 @@ namespace Adressboken
 
         static void WriteNames()
         {
-            if (contacts.Count == 0)
+            if (contactNames.Count == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("No names in contacts.");
@@ -162,7 +189,7 @@ namespace Adressboken
             {
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 int j = 1;
-                foreach (var name in contacts)
+                foreach (var name in contactNames)
                 {
                     Console.WriteLine($"{j}. {name}");
                     j++;
