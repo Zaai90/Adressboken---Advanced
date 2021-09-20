@@ -148,7 +148,6 @@ namespace Adressboken
 
         }
 
-
         static void WriteNames()
         {
             if (contacts.Count == 0)
@@ -165,8 +164,6 @@ namespace Adressboken
                     Console.WriteLine($"{j}. {name}");
                     j++;
                 }
-
-
             }
             Console.ReadLine();
         }
