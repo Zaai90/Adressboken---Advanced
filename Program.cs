@@ -7,85 +7,109 @@ namespace Adressboken
     class Program
     {
         //Variablar
+        static int indexMainMenu = 0;
         static List<string> contactNames = new();
         static List<string> phoneNumbers = new();
         static int totalChars = 0;
-        static string message = "";
 
 
         static void Main(string[] args)
 
         {
-            addToContacts("Dav", "0707070701");
-            addToContacts("Erik Jansson", "0707070702");
-            addToContacts("Nina Larsdotter", "0707070703");
-            addToContacts("David Josefsson", "0707070704");
-            addToContacts("Sara Andersson", "0707070705");
-            addToContacts("Emil Grune", "0707070706");
-            addToContacts("Elin Grune", "0707070707");
-            addToContacts("Erik Grune", "0707070708");
-            addToContacts("Johan Grune", "0707070709");
-            addToContacts("Erik Danielsson", "0707070710");
-            message = "";
+            mainMenu();
 
+        }
+
+
+
+        public static void mainMenu()
+        {
+            // Console.Clear();
+
+            List<string> menuItems = new List<string>()
+    {
+        "View contacts",
+        "Add contact",
+        "Search contact",
+        "Empty contact",
+        "Exit"
+    };
+
+            Console.CursorVisible = false;
             while (true)
             {
-                ShowMenu();
+                string selectedMenuItem = drawMainMenu(menuItems);
+                if (selectedMenuItem == "View contacts")
+                {
+                    WriteOutContacts();
+                }
+                else if (selectedMenuItem == "Add contact")
+                {
+                    AddContact();
+                }
+                else if (selectedMenuItem == "Search contact")
+                {
+                    SearchName();
+                }
+                else if (selectedMenuItem == "Empty contact")
+                {
+                    ClearContacts();
+                }
+                else if (selectedMenuItem == "Exit")
+                {
+                    Environment.Exit(0);
+                }
             }
         }
-        static void ShowMenu()
+
+        public static string drawMainMenu(List<string> items)
         {
-            //Menu
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($"--- § Contacts § --- \nNumber of names: {contactNames.Count} \nNumber of characters: {totalChars}");
-            Console.WriteLine("[V]iew contacts");
-            Console.WriteLine("[A]dd name");
-            Console.WriteLine("[E]mpty contacts");
-            Console.WriteLine("[S]earch name");
-            Console.WriteLine("[Q]uit program");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(message);
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.Write("Choose action: ");
-
-            string mySelection = Console.ReadKey(true).Key.ToString().ToLower();
-            Console.WriteLine();
-
-            if (mySelection == "v")
+            for (int i = 0; i < items.Count; i++)
             {
-                WriteOutContacts();
+                if (i == indexMainMenu)
+                {
+                    Console.BackgroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.WriteLine(items[i]);
+                }
+                else
+                {
+                    Console.WriteLine(items[i]);
+                }
+                Console.ResetColor();
             }
-            else if (mySelection == "a")
+
+            ConsoleKeyInfo ckey = Console.ReadKey();
+            if (ckey.Key == ConsoleKey.DownArrow)
             {
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("What name do you want to add? ");
-                string tmpName = Console.ReadLine();
-                Console.WriteLine("Add the persons phonenumber: ");
-                string tmpNumber = CheckPhoneNr(Console.ReadLine());
-
-                addToContacts(tmpName, tmpNumber);
-
+                if (indexMainMenu == items.Count - 1) { }
+                else { indexMainMenu++; }
             }
-            else if (mySelection == "e")
+            else if (ckey.Key == ConsoleKey.UpArrow)
             {
-                ClearContacts();
-
+                if (indexMainMenu <= 0) { }
+                else { indexMainMenu--; }
             }
-            else if (mySelection == "s")
+            else if (ckey.Key == ConsoleKey.LeftArrow)
             {
-                SearchName();
-
+                Console.Clear();
             }
-            else if (mySelection == "q")
+            else if (ckey.Key == ConsoleKey.RightArrow)
             {
-                Environment.Exit(0);
+                Console.Clear();
+            }
+            else if (ckey.Key == ConsoleKey.Enter)
+            {
+                return items[indexMainMenu];
             }
             else
             {
-                message = "Invalid selection!";
+                return "";
             }
 
+            Console.Clear();
+            return "";
         }
 
         static string CheckPhoneNr(string number)
@@ -112,11 +136,15 @@ namespace Adressboken
                 }
             }
         }
-        static void addToContacts(string name, string number)
+        static void AddContact()
         {
+            Console.WriteLine("What's the persons name? ");
+            string tmpName = Console.ReadLine();
+            Console.WriteLine("Add the person's phone number: ");
+            string tmpNumber = CheckPhoneNr(Console.ReadLine());
 
-            contactNames.Add(name);
-            phoneNumbers.Add(number);
+            contactNames.Add(tmpName);
+            phoneNumbers.Add(tmpNumber);
 
             int total = 0;
             foreach (var name2 in contactNames)
@@ -125,14 +153,16 @@ namespace Adressboken
                 total = total += i;
             }
             totalChars = total;
-            message = "New name and phonenumber added.";
+            Console.WriteLine("New name and phonenumber added. Press any key to continue...");
+            Console.ReadLine();
         }
 
         static void ClearContacts()
         {
             contactNames.Clear();
             totalChars = 0;
-            message = "Contacts in now empty!";
+            Console.WriteLine("Contacts in now empty! Press any key to continue...");
+            Console.ReadLine();
         }
 
         static void SearchName()
@@ -141,7 +171,6 @@ namespace Adressboken
             Console.WriteLine("What name whould you like to search for?");
             string searchName2 = "";
             bool nameExist = false;
-            message = "";
 
             while (true)
             {
