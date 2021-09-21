@@ -142,7 +142,6 @@ namespace Adressboken
             {
                 return "";
             }
-
             Console.Clear();
             return "";
         }
@@ -175,6 +174,7 @@ namespace Adressboken
         {
             string tmpName;
             string tmpNumber;
+
             Console.WriteLine("What's the persons name? ");
             tmpName = Console.ReadLine();
             while (true)
@@ -224,7 +224,6 @@ namespace Adressboken
                 total = total += i;
             }
             totalChars = total;
-
         }
 
         static void DeleteContact()
@@ -232,18 +231,11 @@ namespace Adressboken
             int nr = 0;
             string choosen = "";
             bool exists = false;
-            Console.WriteLine("Who do you want to delete from contacts?");
-            ConsoleKeyInfo ckey = Console.ReadKey(true);
-
-
-
+            Console.WriteLine("Who do you want to delete from contacts? Press Esc to go back or Enter to continue...");
+            ConsoleKeyInfo ckey = Console.ReadKey(false);
+            choosen = Console.ReadLine().ToLower();
             while (ckey.Key != ConsoleKey.Escape)
             {
-                //Funkar inte att avbryta när man börjat skriva
-
-                //System.Console.WriteLine("CHECK!");
-                choosen = Console.ReadLine().ToLower();
-                ckey = Console.ReadKey();
                 foreach (var name in contactNames)
                 {
                     if (name.ToLower() == choosen)
@@ -265,9 +257,7 @@ namespace Adressboken
                     }
                     nr++;
                 }
-
                 break;
-
             }
 
         }
@@ -291,7 +281,6 @@ namespace Adressboken
             {
                 if (string.IsNullOrWhiteSpace(searchName2))
                 {
-
                     searchName2 = Console.ReadLine().ToLower();
                 }
                 else
