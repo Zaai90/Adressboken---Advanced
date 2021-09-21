@@ -7,7 +7,8 @@ namespace Adressboken
     class Program
     {
         //Variablar
-        static int indexMainMenu = 0;
+        static int hoverIndex = 0;
+        static int menuIndex = 0;
         static List<string> contactNames = new();
         static List<string> phoneNumbers = new();
         static int totalChars = 0;
@@ -16,49 +17,76 @@ namespace Adressboken
         static void Main(string[] args)
 
         {
-            Testdata(22);
+            Testdata();
             mainMenu();
-
         }
-
-
 
         public static void mainMenu()
         {
-            // Console.Clear();
+            Console.Clear();
 
-            List<string> menuItems = new List<string>()
-    {
-        "View contacts",
-        "Add contact",
-        "Search contact",
-        "Empty contact",
-        "Exit"
-    };
+            List<string> menuItems = new()
+            {
+                "View contacts",
+                "Add contact",
+                "Search contact",
+                "Delete contact",
+                "Exit"
+            };
+            List<string> subMenuItems = new()
+            {
+                "Delete contact",
+                "Empty contact",
+                "Back"
+            };
 
             Console.CursorVisible = false;
             while (true)
             {
-                string selectedMenuItem = drawMainMenu(menuItems);
-                if (selectedMenuItem == "View contacts")
+                if (menuIndex == 0)
                 {
-                    WriteOutContacts();
+
+                    string selectedMenuItem = drawMainMenu(menuItems);
+                    if (selectedMenuItem == "View contacts")
+                    {
+                        WriteOutContacts();
+                    }
+                    else if (selectedMenuItem == "Add contact")
+                    {
+                        AddContact();
+                    }
+                    else if (selectedMenuItem == "Search contact")
+                    {
+                        SearchName();
+                    }
+                    else if (selectedMenuItem == "Delete contact")
+                    {
+                        hoverIndex = 0;
+                        menuIndex = 1;
+                    }
+                    else if (selectedMenuItem == "Exit")
+                    {
+                        Environment.Exit(0);
+                    }
                 }
-                else if (selectedMenuItem == "Add contact")
+                else if (menuIndex == 1)
                 {
-                    AddContact();
-                }
-                else if (selectedMenuItem == "Search contact")
-                {
-                    SearchName();
-                }
-                else if (selectedMenuItem == "Empty contact")
-                {
-                    ClearContacts();
-                }
-                else if (selectedMenuItem == "Exit")
-                {
-                    Environment.Exit(0);
+                    string selectedMenuItem = drawMainMenu(subMenuItems);
+                    if (selectedMenuItem == "Delete contact")
+                    {
+                        // System.Console.WriteLine("Testing testing!");
+                        // Console.ReadLine();
+                        DeleteContact();
+                    }
+                    else if (selectedMenuItem == "Empty contact")
+                    {
+                        ClearContacts();
+                    }
+                    else if (selectedMenuItem == "Back")
+                    {
+                        hoverIndex = 3;
+                        menuIndex = 0;
+                    }
                 }
             }
         }
@@ -74,7 +102,7 @@ namespace Adressboken
             Console.ResetColor();
             for (int i = 0; i < items.Count; i++)
             {
-                if (i == indexMainMenu)
+                if (i == hoverIndex)
                 {
                     Console.BackgroundColor = ConsoleColor.Gray;
                     Console.ForegroundColor = ConsoleColor.Black;
@@ -90,13 +118,13 @@ namespace Adressboken
             ConsoleKeyInfo ckey = Console.ReadKey();
             if (ckey.Key == ConsoleKey.DownArrow)
             {
-                if (indexMainMenu == items.Count - 1) { }
-                else { indexMainMenu++; }
+                if (hoverIndex == items.Count - 1) { }
+                else { hoverIndex++; }
             }
             else if (ckey.Key == ConsoleKey.UpArrow)
             {
-                if (indexMainMenu <= 0) { }
-                else { indexMainMenu--; }
+                if (hoverIndex <= 0) { }
+                else { hoverIndex--; }
             }
             else if (ckey.Key == ConsoleKey.LeftArrow)
             {
@@ -108,7 +136,7 @@ namespace Adressboken
             }
             else if (ckey.Key == ConsoleKey.Enter)
             {
-                return items[indexMainMenu];
+                return items[hoverIndex];
             }
             else
             {
@@ -168,7 +196,7 @@ namespace Adressboken
 
 
         }
-        static void AddContact(string tmpName = "", string tmpNumber = "")
+        static void AddContact(string tmpName, string tmpNumber)
         {
             contactNames.Add(tmpName);
             phoneNumbers.Add(tmpNumber);
@@ -184,7 +212,7 @@ namespace Adressboken
             Console.ReadLine();
 
         }
-        static void AddContact(string tmpName = "", string tmpNumber = "", string type = "automatic")
+        static void AddContact(string tmpName, string tmpNumber, string type = "automatic")
         {
             contactNames.Add(tmpName);
             phoneNumbers.Add(tmpNumber);
@@ -199,14 +227,58 @@ namespace Adressboken
 
         }
 
+        static void DeleteContact()
+        {
+            int nr = 0;
+            string choosen = "";
+            bool exists = false;
+            Console.WriteLine("Who do you want to delete from contacts?");
+            ConsoleKeyInfo ckey = Console.ReadKey(true);
+
+
+
+            while (ckey.Key != ConsoleKey.Escape)
+            {
+                //Funkar inte att avbryta när man börjat skriva
+
+                //System.Console.WriteLine("CHECK!");
+                choosen = Console.ReadLine().ToLower();
+                ckey = Console.ReadKey();
+                foreach (var name in contactNames)
+                {
+                    if (name.ToLower() == choosen)
+                    {
+                        contactNames.Remove(name);
+                        phoneNumbers.Remove(phoneNumbers[nr]);
+                        Console.WriteLine("Contact deleted!");
+                        Console.ReadLine();
+                        break;
+                    }
+
+                    else if (!exists && name == contactNames.Last())
+                    {
+                        Console.WriteLine("Could not find that name.");
+                        Console.ReadLine();
+                        break;
+
+
+                    }
+                    nr++;
+                }
+
+                break;
+
+            }
+
+        }
         static void ClearContacts()
         {
             contactNames.Clear();
+            phoneNumbers.Clear();
             totalChars = 0;
             Console.WriteLine("Contacts in now empty! Press any key to continue...");
             Console.ReadLine();
         }
-
         static void SearchName()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -246,7 +318,6 @@ namespace Adressboken
             }
             Console.ReadLine();
         }
-
         static void WriteOutContacts()
         {
             if (contactNames.Count == 0)
