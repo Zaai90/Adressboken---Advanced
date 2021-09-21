@@ -285,7 +285,19 @@ namespace Adressboken
                 "Eva",
                 "Jessica",
                 "Tobias",
-                "Maria"
+                "Maria",
+                "Daniel",
+                "Lisa",
+                "Gustav",
+                "Elin",
+                "Martin",
+                "Tina",
+                "Alfons",
+                "Klara",
+                "Kent",
+                "Albert",
+                "Frida",
+                "Victoria"
             };
             List<string> LastName = new()
             {
@@ -294,20 +306,30 @@ namespace Adressboken
                 "Frisk",
                 "Larsdotter",
                 "Lönn",
+                "Åberg",
+                "Jakobsson",
+                "Frankenstein",
+                "Einstein",
+                "Grune",
+                "Larsson",
+                "Morzart",
+                "Fredriksson",
+                "Thulin",
+                "Jansson",
                 "Alm"
             };
             for (int i = 0; i < nameCount; i++)
             {
-                int index = rand.Next(1, 6);
+                int index = rand.Next(0, 18);
                 String tmpContact = $"{firstName[index]} ";
-                index = rand.Next(1, 6);
+                index = rand.Next(0, 16);
                 tmpContact = tmpContact + LastName[index];
-                AddContact(tmpContact, "0707070707", "");
+                int randNr = rand.Next(1000000, 9999999);
+                AddContact(tmpContact, $"070{randNr}", "");
 
             }
 
 
         }//Slutet på klassen
-
     }
 }
