@@ -16,7 +16,7 @@ namespace Adressboken
         static void Main(string[] args)
 
         {
-            Testdata();
+            Testdata(22);
             mainMenu();
 
         }
@@ -145,8 +145,10 @@ namespace Adressboken
         }
         static void AddContact()
         {
+            string tmpName;
+            string tmpNumber;
             Console.WriteLine("What's the persons name? ");
-            string tmpName = Console.ReadLine();
+            tmpName = Console.ReadLine();
             while (true)
             {
                 if (string.IsNullOrWhiteSpace(tmpName))
@@ -160,20 +162,41 @@ namespace Adressboken
                 }
             }
             Console.WriteLine("Add the person's phone number: ");
-            string tmpNumber = CheckPhoneNr(Console.ReadLine());
+            tmpNumber = CheckPhoneNr(Console.ReadLine());
 
+            AddContact(tmpName, tmpNumber);
+
+
+        }
+        static void AddContact(string tmpName = "", string tmpNumber = "")
+        {
             contactNames.Add(tmpName);
             phoneNumbers.Add(tmpNumber);
 
             int total = 0;
-            foreach (var name2 in contactNames)
+            foreach (var name in contactNames)
             {
-                int i = name2.Length;
+                int i = name.Length;
                 total = total += i;
             }
             totalChars = total;
             Console.WriteLine("New name and phonenumber added. Press any key to continue...");
             Console.ReadLine();
+
+        }
+        static void AddContact(string tmpName = "", string tmpNumber = "", string type = "automatic")
+        {
+            contactNames.Add(tmpName);
+            phoneNumbers.Add(tmpNumber);
+
+            int total = 0;
+            foreach (var name in contactNames)
+            {
+                int i = name.Length;
+                total = total += i;
+            }
+            totalChars = total;
+
         }
 
         static void ClearContacts()
@@ -279,8 +302,8 @@ namespace Adressboken
                 String tmpContact = $"{firstName[index]} ";
                 index = rand.Next(1, 6);
                 tmpContact = tmpContact + LastName[index];
-                contactNames.Add(tmpContact);
-                phoneNumbers.Add("0707070707");
+                AddContact(tmpContact, "0707070707", "");
+
             }
 
 
