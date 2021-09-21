@@ -281,6 +281,7 @@ namespace Adressboken
         }
         static void SearchName()
         {
+            //Note to self: Lägg till nummer känslighet
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("What name whould you like to search for?");
             string searchName2 = "";
@@ -290,8 +291,8 @@ namespace Adressboken
             {
                 if (string.IsNullOrWhiteSpace(searchName2))
                 {
-                    searchName2 = Console.ReadLine().ToLower();
 
+                    searchName2 = Console.ReadLine().ToLower();
                 }
                 else
                 {
