@@ -381,9 +381,9 @@ namespace Adressboken
             };
             for (int i = 0; i < nameCount; i++)
             {
-                int index = rand.Next(0, 18);
+                int index = rand.Next(0, firstName.Count);
                 String tmpContact = $"{firstName[index]} ";
-                index = rand.Next(0, 16);
+                index = rand.Next(0, LastName.Count);
                 tmpContact = tmpContact + LastName[index];
                 int randNr = rand.Next(1000000, 9999999);
                 AddContact(tmpContact, $"070{randNr}", "");
@@ -391,6 +391,6 @@ namespace Adressboken
             }
 
 
-        }//Slutet på klassen
+        }
     }
 }
